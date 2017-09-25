@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStartRecord(View view)
     {
-        SDMediaPlayer.getInstance().stop();
+        SDMediaPlayer.getInstance().reset();
         SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac").getAbsolutePath());
     }
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity
             public void onFinish()
             {
                 Log.i(TAG, "Recorder Timer finish");
+                SDMediaRecorder.getInstance().stop();
             }
         });
         SDMediaRecorder.getInstance().setOnStateChangeCallback(new SDMediaRecorder.OnStateChangeCallback()
@@ -89,8 +90,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRecordSuccess(File file, long duration)
             {
-                SDMediaPlayer.getInstance().setDataPath(file.getAbsolutePath());
                 Log.i(TAG, "Recorder onRecordSuccess:" + file.getAbsolutePath() + "," + duration);
+                SDMediaPlayer.getInstance().setDataPath(file.getAbsolutePath());
             }
         });
         SDMediaRecorder.getInstance().setOnExceptionCallback(new SDMediaRecorder.OnExceptionCallback()
