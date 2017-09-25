@@ -26,7 +26,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickPlay"
-        android:text="播放"/>
+        android:onClick="onClickStartPlay"
+        android:text="开始播放"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickStopPlay"
+        android:text="停止播放"/>
 
 </LinearLayout>

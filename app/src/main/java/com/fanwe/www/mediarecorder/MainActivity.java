@@ -21,6 +21,45 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initRecorder();
+        initPlayer();
+    }
+
+    /**
+     * 开始录制
+     */
+    public void onClickStartRecord(View view)
+    {
+        SDMediaPlayer.getInstance().stop();
+        SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac").getAbsolutePath());
+    }
+
+    /**
+     * 停止录制
+     */
+    public void onClickStopRecord(View view)
+    {
+        SDMediaRecorder.getInstance().stop();
+    }
+
+    /**
+     * 开始播放
+     */
+    public void onClickStartPlay(View view)
+    {
+        SDMediaPlayer.getInstance().start();
+    }
+
+    /**
+     * 停止播放
+     */
+    public void onClickStopPlay(View view)
+    {
+        SDMediaPlayer.getInstance().stop();
+    }
+
+    private void initRecorder()
+    {
         SDMediaRecorder.getInstance().init(this);
         SDMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
         SDMediaRecorder.getInstance().setOnCountDownCallback(new SDMediaRecorder.OnCountDownCallback()
@@ -28,13 +67,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTick(long leftTime)
             {
-                Log.i(TAG, "Timer onTick:" + leftTime);
+                Log.i(TAG, "Recorder Timer onTick:" + leftTime);
             }
 
             @Override
             public void onFinish()
             {
-                Log.i(TAG, "Timer finish");
+                Log.i(TAG, "Recorder Timer finish");
             }
         });
         SDMediaRecorder.getInstance().setOnStateChangeCallback(new SDMediaRecorder.OnStateChangeCallback()
@@ -42,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onStateChanged(SDMediaRecorder.State oldState, SDMediaRecorder.State newState, SDMediaRecorder recorder)
             {
-                Log.i(TAG, "onStateChanged:" + oldState + " " + newState);
+                Log.i(TAG, "Recorder onStateChanged:" + newState);
             }
         });
         SDMediaRecorder.getInstance().setOnRecorderCallback(new SDMediaRecorder.OnRecorderCallback()
@@ -50,25 +89,46 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRecordSuccess(File file, long duration)
             {
-                Log.i(TAG, "onRecordSuccess:" + file.getAbsolutePath() + " " + duration);
                 SDMediaPlayer.getInstance().setDataPath(file.getAbsolutePath());
+                Log.i(TAG, "Recorder onRecordSuccess:" + file.getAbsolutePath() + "," + duration);
+            }
+        });
+        SDMediaRecorder.getInstance().setOnExceptionCallback(new SDMediaRecorder.OnExceptionCallback()
+        {
+            @Override
+            public void onException(Exception e)
+            {
+                Log.i(TAG, "Recorder onException:" + e);
             }
         });
     }
 
-    public void onClickStartRecord(View view)
+    private void initPlayer()
     {
-        SDMediaPlayer.getInstance().stop();
+        SDMediaPlayer.getInstance().init();
+        SDMediaPlayer.getInstance().setOnStateChangeCallback(new SDMediaPlayer.OnStateChangeCallback()
+        {
+            @Override
+            public void onStateChanged(SDMediaPlayer.State oldState, SDMediaPlayer.State newState, SDMediaPlayer player)
+            {
+                Log.i(TAG, "Player onStateChanged:" + newState);
+            }
+        });
+        SDMediaPlayer.getInstance().setOnExceptionCallback(new SDMediaPlayer.OnExceptionCallback()
+        {
+            @Override
+            public void onException(Exception e)
+            {
+                Log.i(TAG, "Player onException:" + e);
+            }
+        });
     }
 
-    public void onClickStopRecord(View view)
+    @Override
+    protected void onDestroy()
     {
-        SDMediaRecorder.getInstance().stop();
-    }
-
-    public void onClickPlay(View view)
-    {
-//        SDMediaPlayer.getInstance().setDataPath(SDMediaRecorder.getInstance().getRecordFile().getAbsolutePath());
-        SDMediaPlayer.getInstance().start();
+        super.onDestroy();
+        SDMediaRecorder.getInstance().release();
+        SDMediaPlayer.getInstance().release();
     }
 }
