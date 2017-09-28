@@ -1,4 +1,4 @@
-package com.fanwe.lib.mediarecorder;
+package com.fanwe.lib.media.recorder;
 
 import java.io.File;
 

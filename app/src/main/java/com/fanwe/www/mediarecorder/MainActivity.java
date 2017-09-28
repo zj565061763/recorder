@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.fanwe.lib.mediarecorder.SDMediaRecorder;
+import com.fanwe.lib.media.recorder.SDMediaRecorder;
 import com.fanwe.library.media.SDMediaPlayer;
 
 import java.io.File;
