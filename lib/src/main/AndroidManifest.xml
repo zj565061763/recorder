@@ -1,4 +1,4 @@
-<manifest package="com.fanwe.lib.media.recorder"
+<manifest package="com.fanwe.lib.recorder"
 
           xmlns:android="http://schemas.android.com/apk/res/android"
 >
