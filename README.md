@@ -1,6 +1,21 @@
 # About
 对MediaRecorder进行了封装，使用起来更方便
 
+## Gradle
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+        compile 'com.github.zj565061763:recorder:1.0.1'
+}
+
+```
+
 ## 常用方法
 ```java
 //初始化
