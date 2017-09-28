@@ -5,7 +5,7 @@
 ```java
 //初始化
 SDMediaRecorder.getInstance().init(this);
-//设置最大录制时长
+//设置最大录音时长
 SDMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
 //设置倒计时回调
 SDMediaRecorder.getInstance().setOnCountDownCallback(new SDMediaRecorder.OnCountDownCallback()
@@ -32,7 +32,7 @@ SDMediaRecorder.getInstance().setOnStateChangeCallback(new SDMediaRecorder.OnSta
         Log.i(TAG, "Recorder onStateChanged:" + newState);
     }
 });
-//设置录制回调
+//设置录音回调
 SDMediaRecorder.getInstance().setOnRecorderCallback(new SDMediaRecorder.OnRecorderCallback()
 {
     @Override
@@ -52,9 +52,9 @@ SDMediaRecorder.getInstance().setOnExceptionCallback(new SDMediaRecorder.OnExcep
     }
 });
 
-//开始录制，如果File为null，则内部会自动创建File
+//开始录音，如果File为null，则内部会自动创建File
 SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
-//停止录制
+//停止录音
 SDMediaRecorder.getInstance().stop();
 //释放录音器，释放后需要重新调用初始化方法才可以继续使用
 SDMediaRecorder.getInstance().release();

@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickStartRecord"
-        android:text="开始录制"/>
+        android:text="开始录音"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickStopRecord"
-        android:text="停止录制"/>
+        android:text="停止录音"/>
 
     <TextView
         android:id="@+id/tv_info"

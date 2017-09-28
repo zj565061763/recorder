@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 开始录制
+     * 开始录音
      */
     public void onClickStartRecord(View view)
     {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 停止录制
+     * 停止录音
      */
     public void onClickStopRecord(View view)
     {

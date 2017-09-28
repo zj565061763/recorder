@@ -102,7 +102,7 @@ public class SDMediaRecorder
     }
 
     /**
-     * 设置录制参数
+     * 设置录音参数
      *
      * @param recorderParams
      */
@@ -120,49 +120,84 @@ public class SDMediaRecorder
         return mRecorderParams;
     }
 
+    /**
+     * 设置录音回调
+     *
+     * @param onRecorderCallback
+     */
     public void setOnRecorderCallback(OnRecorderCallback onRecorderCallback)
     {
         mOnRecorderCallback = onRecorderCallback;
     }
 
+    /**
+     * 设置状态变化回调
+     *
+     * @param onStateChangeCallback
+     */
     public void setOnStateChangeCallback(OnStateChangeCallback onStateChangeCallback)
     {
         mOnStateChangeCallback = onStateChangeCallback;
     }
 
+    /**
+     * 设置异常回调
+     *
+     * @param onExceptionCallback
+     */
     public void setOnExceptionCallback(OnExceptionCallback onExceptionCallback)
     {
         mOnExceptionCallback = onExceptionCallback;
     }
 
+    /**
+     * 设置倒计时回调
+     *
+     * @param onCountDownCallback
+     */
     public void setOnCountDownCallback(OnCountDownCallback onCountDownCallback)
     {
         mOnCountDownCallback = onCountDownCallback;
     }
 
+    /**
+     * 设置最大录音时长
+     *
+     * @param maxRecordTime (毫秒)
+     */
     public void setMaxRecordTime(long maxRecordTime)
     {
         this.mMaxRecordTime = maxRecordTime;
     }
 
+    /**
+     * 删除默认目录下的所有录音文件
+     */
     public void deleteAllFile()
     {
         Utils.deleteFileOrDir(mDirFile);
     }
 
-    public File getRecordFile()
-    {
-        return mRecordFile;
-    }
-
+    /**
+     * 返回默认的录音文件保存目录
+     *
+     * @return
+     */
     public File getDirFile()
     {
+        ensureDirectoryExists();
         return mDirFile;
     }
 
+    /**
+     * 返回默认目录下根据指定文件名对应的File对象
+     *
+     * @param fileName
+     * @return
+     */
     public File getFile(String fileName)
     {
-        File file = new File(mDirFile, fileName);
+        File file = new File(getDirFile(), fileName);
         return file;
     }
 
@@ -298,8 +333,7 @@ public class SDMediaRecorder
             mRecordFile = file;
             if (mRecordFile == null || !mRecordFile.exists())
             {
-                ensureDirectoryExists();
-                mRecordFile = Utils.createDefaultFileUnderDir(mDirFile, "aac");
+                mRecordFile = Utils.createDefaultFileUnderDir(getDirFile(), "aac");
             }
 
             mRecorder.setOutputFile(mRecordFile.getAbsolutePath());
@@ -400,7 +434,7 @@ public class SDMediaRecorder
         {
             duration = System.currentTimeMillis() - mStartTime;
         }
-        mOnRecorderCallback.onRecordSuccess(getRecordFile(), duration);
+        mOnRecorderCallback.onRecordSuccess(mRecordFile, duration);
     }
 
     private void notifyException(Exception e)
@@ -450,7 +484,7 @@ public class SDMediaRecorder
     public interface OnRecorderCallback
     {
         /**
-         * 录制成功回调
+         * 录音成功回调
          *
          * @param file
          * @param duration
