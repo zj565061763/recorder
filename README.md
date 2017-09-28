@@ -11,7 +11,7 @@ allprojects {
 }
 
 dependencies {
-        compile 'com.github.zj565061763:recorder:1.0.2'
+        compile 'com.github.zj565061763:recorder:1.0.3'
 }
 
 ```
