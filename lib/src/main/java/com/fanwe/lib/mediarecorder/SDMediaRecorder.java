@@ -3,7 +3,6 @@ package com.fanwe.lib.mediarecorder;
 import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.CountDownTimer;
-import android.text.TextUtils;
 
 import java.io.File;
 
@@ -64,13 +63,17 @@ public class SDMediaRecorder
             {
                 return;
             }
-
             if (mRecorder != null)
             {
                 release();
             }
 
-            mDirFile = new File(context.getCacheDir(), DIR_NAME);
+            File cacheDir = context.getExternalCacheDir();
+            if (cacheDir == null)
+            {
+                cacheDir = context.getCacheDir();
+            }
+            mDirFile = new File(cacheDir, DIR_NAME);
 
             mRecorder = new MediaRecorder();
             mRecorder.setOnErrorListener(mInternalOnErrorListener);
@@ -181,21 +184,19 @@ public class SDMediaRecorder
 
     /**
      * 开始录音
-     *
-     * @param path 录音文件保存路径，如果为空的话，会用录音器内部的路径规则生成录音文件
      */
-    public void start(String path)
+    public void start(File file)
     {
         switch (mState)
         {
             case Idle:
-                startRecorder(path);
+                startRecorder(file);
                 break;
             case Recording:
 
                 break;
             case Stopped:
-                startRecorder(path);
+                startRecorder(file);
                 break;
             case Released:
 
@@ -238,7 +239,21 @@ public class SDMediaRecorder
         }
     }
 
-    private void startRecorder(String path)
+    private void ensureDirectoryExists()
+    {
+        if (mDirFile != null && !mDirFile.exists())
+        {
+            try
+            {
+                mDirFile.mkdirs();
+            } catch (Exception e)
+            {
+                notifyException(e);
+            }
+        }
+    }
+
+    private void startRecorder(File file)
     {
         try
         {
@@ -246,16 +261,14 @@ public class SDMediaRecorder
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
-            if (TextUtils.isEmpty(path))
+            mRecordFile = file;
+            if (mRecordFile == null || !mRecordFile.exists())
             {
+                ensureDirectoryExists();
                 mRecordFile = Utils.createDefaultFileUnderDir(mDirFile, "aac");
-                path = mRecordFile.getAbsolutePath();
-            } else
-            {
-                mRecordFile = new File(path);
             }
 
-            mRecorder.setOutputFile(path);
+            mRecorder.setOutputFile(mRecordFile.getAbsolutePath());
             mRecorder.prepare();
             mRecorder.start();
             mStartTime = System.currentTimeMillis();

@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity
     public void onClickStartRecord(View view)
     {
         SDMediaPlayer.getInstance().reset();
-        SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac").getAbsolutePath());
+
+        SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
     }
 
     /**
