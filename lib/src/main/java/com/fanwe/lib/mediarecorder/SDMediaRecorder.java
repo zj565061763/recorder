@@ -333,7 +333,7 @@ public class SDMediaRecorder
             mRecordFile = file;
             if (mRecordFile == null || !mRecordFile.exists())
             {
-                mRecordFile = Utils.createDefaultFileUnderDir(getDirFile(), "aac");
+                mRecordFile = Utils.createDefaultFileUnderDir(getDirFile(), null);
             }
 
             mRecorder.setOutputFile(mRecordFile.getAbsolutePath());
