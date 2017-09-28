@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 20170928
-        versionName "1.0.1"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -28,14 +28,14 @@ android {
 }
 
 dependencies {
-    
+
 }
 
 publish {
     userOrg = 'zj565061763'
     groupId = 'com.fanwe.android'
     artifactId = 'recorder'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.0'
     desc = 'fanwe android recorder library'
     website = 'https://github.com/zj565061763/recorder'
 }
