@@ -36,7 +36,7 @@ publish {
     groupId = 'com.fanwe.android'
     artifactId = 'recorder'
     publishVersion = '1.0.1'
-    desc = 'fnawe android library'
+    desc = 'fanwe android recorder library'
     website = 'https://github.com/zj565061763/recorder'
 }
 
