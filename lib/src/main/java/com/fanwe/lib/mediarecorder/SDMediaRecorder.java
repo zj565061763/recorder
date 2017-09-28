@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2017 zhengjun, fanwe (http://www.fanwe.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.fanwe.lib.mediarecorder;
 
 import android.content.Context;
@@ -6,15 +21,14 @@ import android.os.CountDownTimer;
 
 import java.io.File;
 
-/**
- * Created by Administrator on 2016/7/15.
- */
 public class SDMediaRecorder
 {
     private static final String DIR_NAME = "record";
+    private static final SDMediaRecorderParams RECORDER_PARAMS = new SDMediaRecorderParams();
 
     private static SDMediaRecorder sInstance;
     private MediaRecorder mRecorder;
+    private SDMediaRecorderParams mRecorderParams;
     private State mState = State.Idle;
     private File mDirFile;
     private boolean mIsInit;
@@ -32,6 +46,7 @@ public class SDMediaRecorder
 
     private SDMediaRecorder()
     {
+        setRecorderParams(RECORDER_PARAMS);
     }
 
     public static SDMediaRecorder getInstance()
@@ -84,6 +99,25 @@ public class SDMediaRecorder
         {
             notifyException(e);
         }
+    }
+
+    /**
+     * 设置录制参数
+     *
+     * @param recorderParams
+     */
+    public void setRecorderParams(SDMediaRecorderParams recorderParams)
+    {
+        if (recorderParams == null)
+        {
+            recorderParams = RECORDER_PARAMS;
+        }
+        mRecorderParams = recorderParams;
+    }
+
+    private SDMediaRecorderParams getRecorderParams()
+    {
+        return mRecorderParams;
     }
 
     public void setOnRecorderCallback(OnRecorderCallback onRecorderCallback)
@@ -257,9 +291,9 @@ public class SDMediaRecorder
     {
         try
         {
-            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            mRecorder.setAudioSource(getRecorderParams().getAudioSource());
+            mRecorder.setOutputFormat(getRecorderParams().getOutputFormat());
+            mRecorder.setAudioEncoder(getRecorderParams().getAudioEncoder());
 
             mRecordFile = file;
             if (mRecordFile == null || !mRecordFile.exists())
