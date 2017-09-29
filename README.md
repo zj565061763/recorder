@@ -2,19 +2,7 @@
 对MediaRecorder进行了封装，使用起来更方便
 
 ## Gradle
-```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-dependencies {
-        compile 'com.github.zj565061763:recorder:1.0.3'
-}
-
-```
+[![](https://jitpack.io/v/zj565061763/recorder.svg)](https://jitpack.io/#zj565061763/recorder)
 
 ## 常用方法
 ```java
