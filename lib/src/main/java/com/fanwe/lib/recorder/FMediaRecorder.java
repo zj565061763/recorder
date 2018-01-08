@@ -21,14 +21,13 @@ import android.os.CountDownTimer;
 
 import java.io.File;
 
-public class SDMediaRecorder
+public class FMediaRecorder
 {
     private static final String DIR_NAME = "record";
-    private static final SDMediaRecorderParams RECORDER_PARAMS = new SDMediaRecorderParams();
 
-    private static SDMediaRecorder sInstance;
+    private static FMediaRecorder sInstance;
     private MediaRecorder mRecorder;
-    private SDMediaRecorderParams mRecorderParams;
+    private FMediaRecorderParams mRecorderParams;
     private State mState = State.Idle;
     private File mDirFile;
     private boolean mIsInit;
@@ -44,20 +43,19 @@ public class SDMediaRecorder
     private OnStateChangeCallback mOnStateChangeCallback;
     private OnCountDownCallback mOnCountDownCallback;
 
-    private SDMediaRecorder()
+    private FMediaRecorder()
     {
-        setRecorderParams(RECORDER_PARAMS);
     }
 
-    public static SDMediaRecorder getInstance()
+    public static FMediaRecorder getInstance()
     {
         if (sInstance == null)
         {
-            synchronized (SDMediaRecorder.class)
+            synchronized (FMediaRecorder.class)
             {
                 if (sInstance == null)
                 {
-                    sInstance = new SDMediaRecorder();
+                    sInstance = new FMediaRecorder();
                 }
             }
         }
@@ -106,17 +104,17 @@ public class SDMediaRecorder
      *
      * @param recorderParams
      */
-    public void setRecorderParams(SDMediaRecorderParams recorderParams)
+    public void setRecorderParams(FMediaRecorderParams recorderParams)
     {
-        if (recorderParams == null)
-        {
-            recorderParams = RECORDER_PARAMS;
-        }
         mRecorderParams = recorderParams;
     }
 
-    private SDMediaRecorderParams getRecorderParams()
+    private FMediaRecorderParams getRecorderParams()
     {
+        if (mRecorderParams == null)
+        {
+            mRecorderParams = FMediaRecorderParams.DEFAULT;
+        }
         return mRecorderParams;
     }
 
@@ -478,7 +476,7 @@ public class SDMediaRecorder
          * @param newState
          * @param recorder
          */
-        void onStateChanged(State oldState, State newState, SDMediaRecorder recorder);
+        void onStateChanged(State oldState, State newState, FMediaRecorder recorder);
     }
 
     public interface OnRecorderCallback

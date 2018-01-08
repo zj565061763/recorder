@@ -17,13 +17,15 @@ package com.fanwe.lib.recorder;
 
 import android.media.MediaRecorder;
 
-public class SDMediaRecorderParams
+public class FMediaRecorderParams
 {
+    public static final FMediaRecorderParams DEFAULT = new FMediaRecorderParams();
+
     private int audioSource;
     private int outputFormat;
     private int audioEncoder;
 
-    public SDMediaRecorderParams()
+    public FMediaRecorderParams()
     {
         setAudioSource(MediaRecorder.AudioSource.MIC);
         setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
@@ -41,7 +43,7 @@ public class SDMediaRecorderParams
      * @param audioSource {@link MediaRecorder.AudioSource}
      * @return
      */
-    public SDMediaRecorderParams setAudioSource(int audioSource)
+    public FMediaRecorderParams setAudioSource(int audioSource)
     {
         this.audioSource = audioSource;
         return this;
@@ -58,7 +60,7 @@ public class SDMediaRecorderParams
      * @param outputFormat {@link MediaRecorder.OutputFormat}
      * @return
      */
-    public SDMediaRecorderParams setOutputFormat(int outputFormat)
+    public FMediaRecorderParams setOutputFormat(int outputFormat)
     {
         this.outputFormat = outputFormat;
         return this;
@@ -75,7 +77,7 @@ public class SDMediaRecorderParams
      * @param audioEncoder {@link MediaRecorder.AudioEncoder}
      * @return
      */
-    public SDMediaRecorderParams setAudioEncoder(int audioEncoder)
+    public FMediaRecorderParams setAudioEncoder(int audioEncoder)
     {
         this.audioEncoder = audioEncoder;
         return this;

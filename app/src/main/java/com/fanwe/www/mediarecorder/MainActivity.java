@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.fanwe.lib.player.SDMediaPlayer;
-import com.fanwe.lib.recorder.SDMediaRecorder;
+import com.fanwe.lib.recorder.FMediaRecorder;
 
 import java.io.File;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     {
         SDMediaPlayer.getInstance().reset();
 
-        SDMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
+        FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
     }
 
     /**
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStopRecord(View view)
     {
-        SDMediaRecorder.getInstance().stop();
+        FMediaRecorder.getInstance().stop();
     }
 
     /**
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity
 
     private void initRecorder()
     {
-        SDMediaRecorder.getInstance().init(this);
-        SDMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
-        SDMediaRecorder.getInstance().setOnCountDownCallback(new SDMediaRecorder.OnCountDownCallback()
+        FMediaRecorder.getInstance().init(this);
+        FMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
+        FMediaRecorder.getInstance().setOnCountDownCallback(new FMediaRecorder.OnCountDownCallback()
         {
             @Override
             public void onTick(long leftTime)
@@ -75,18 +75,18 @@ public class MainActivity extends AppCompatActivity
             public void onFinish()
             {
                 Log.i(TAG, "Recorder Timer finish");
-                SDMediaRecorder.getInstance().stop();
+                FMediaRecorder.getInstance().stop();
             }
         });
-        SDMediaRecorder.getInstance().setOnStateChangeCallback(new SDMediaRecorder.OnStateChangeCallback()
+        FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
         {
             @Override
-            public void onStateChanged(SDMediaRecorder.State oldState, SDMediaRecorder.State newState, SDMediaRecorder recorder)
+            public void onStateChanged(FMediaRecorder.State oldState, FMediaRecorder.State newState, FMediaRecorder recorder)
             {
                 Log.i(TAG, "Recorder onStateChanged:" + newState);
             }
         });
-        SDMediaRecorder.getInstance().setOnRecorderCallback(new SDMediaRecorder.OnRecorderCallback()
+        FMediaRecorder.getInstance().setOnRecorderCallback(new FMediaRecorder.OnRecorderCallback()
         {
             @Override
             public void onRecordSuccess(File file, long duration)
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
                 SDMediaPlayer.getInstance().setDataPath(file.getAbsolutePath());
             }
         });
-        SDMediaRecorder.getInstance().setOnExceptionCallback(new SDMediaRecorder.OnExceptionCallback()
+        FMediaRecorder.getInstance().setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
         {
             @Override
             public void onException(Exception e)
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        SDMediaRecorder.getInstance().release();
+        FMediaRecorder.getInstance().release();
         SDMediaPlayer.getInstance().release();
     }
 }
