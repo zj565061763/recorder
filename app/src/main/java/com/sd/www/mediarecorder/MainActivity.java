@@ -1,11 +1,11 @@
-package com.fanwe.www.mediarecorder;
+package com.sd.www.mediarecorder;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.fanwe.lib.recorder.FMediaRecorder;
+import com.sd.lib.recorder.FMediaRecorder;
 import com.sd.lib.player.FMediaPlayer;
 
 import java.io.File;

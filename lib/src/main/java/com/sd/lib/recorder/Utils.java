@@ -1,10 +1,7 @@
-package com.fanwe.lib.recorder;
+package com.sd.lib.recorder;
 
 import java.io.File;
 
-/**
- * Created by zhengjun on 2017/9/25.
- */
 class Utils
 {
     public static File createDefaultFileUnderDir(File dir, String ext)
