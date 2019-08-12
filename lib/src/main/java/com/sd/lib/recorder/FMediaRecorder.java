@@ -218,17 +218,14 @@ public class FMediaRecorder
 
         switch (mState)
         {
+            case Idle:
+                stopTimer();
+                break;
             case Recording:
                 startTimer();
                 break;
-            case Stopped:
-                stopTimer();
-                break;
             case Released:
                 mIsInit = false;
-                break;
-            case Idle:
-                stopTimer();
                 break;
             default:
                 break;
@@ -247,15 +244,6 @@ public class FMediaRecorder
         {
             case Idle:
                 startRecorder(file);
-                break;
-            case Recording:
-
-                break;
-            case Stopped:
-                startRecorder(file);
-                break;
-            case Released:
-
                 break;
             default:
                 break;
@@ -278,17 +266,17 @@ public class FMediaRecorder
     }
 
     /**
-     * 释放资源，一般在录音界面关闭的时候调用，调用后如果想系继续使用的话需要手动调用init(context)方法初始化
+     * 释放资源，一般在录音界面关闭的时候调用，调用后如果想继续使用的话需要先调用init(context)方法初始化
      */
     public void release()
     {
         switch (mState)
         {
+            case Idle:
+                releaseRecorder();
+                break;
             case Recording:
                 stopRecorder(false);
-                break;
-            case Stopped:
-                releaseRecorder();
                 break;
             default:
                 break;
@@ -330,7 +318,7 @@ public class FMediaRecorder
         {
             mRecorder.stop();
             mRecorder.reset();
-            setState(State.Stopped);
+            setState(State.Idle);
 
             if (notifySuccess)
                 notifyRecordSuccess();
@@ -426,10 +414,6 @@ public class FMediaRecorder
     public enum State
     {
         /**
-         * 已经释放资源
-         */
-        Released,
-        /**
          * 空闲
          */
         Idle,
@@ -438,9 +422,9 @@ public class FMediaRecorder
          */
         Recording,
         /**
-         * 重置状态
+         * 已经释放资源
          */
-        Stopped;
+        Released,
     }
 
     public interface OnStateChangeCallback
