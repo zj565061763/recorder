@@ -26,40 +26,6 @@ public class MainActivity extends AppCompatActivity
         initPlayer();
     }
 
-    /**
-     * 开始录音
-     */
-    public void onClickStartRecord(View view)
-    {
-        mPlayer.reset();
-
-        FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
-    }
-
-    /**
-     * 停止录音
-     */
-    public void onClickStopRecord(View view)
-    {
-        FMediaRecorder.getInstance().stop();
-    }
-
-    /**
-     * 开始播放
-     */
-    public void onClickStartPlay(View view)
-    {
-        mPlayer.start();
-    }
-
-    /**
-     * 停止播放
-     */
-    public void onClickStopPlay(View view)
-    {
-        mPlayer.stop();
-    }
-
     private void initRecorder()
     {
         FMediaRecorder.getInstance().init(this);
@@ -125,6 +91,40 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "Player onException:" + e);
             }
         });
+    }
+
+    /**
+     * 开始录音
+     */
+    public void onClickStartRecord(View view)
+    {
+        mPlayer.reset();
+
+        FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
+    }
+
+    /**
+     * 停止录音
+     */
+    public void onClickStopRecord(View view)
+    {
+        FMediaRecorder.getInstance().stop();
+    }
+
+    /**
+     * 开始播放
+     */
+    public void onClickStartPlay(View view)
+    {
+        mPlayer.start();
+    }
+
+    /**
+     * 停止播放
+     */
+    public void onClickStopPlay(View view)
+    {
+        mPlayer.stop();
     }
 
     @Override
