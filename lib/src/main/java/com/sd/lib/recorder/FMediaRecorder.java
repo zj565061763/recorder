@@ -214,15 +214,12 @@ public class FMediaRecorder
             case Idle:
                 stopTimer();
                 break;
-
             default:
                 break;
         }
 
         if (mOnStateChangeCallback != null)
-        {
             mOnStateChangeCallback.onStateChanged(oldState, mState, this);
-        }
     }
 
     /**
