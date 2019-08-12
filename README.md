@@ -8,29 +8,11 @@
 ```java
 //初始化
 FMediaRecorder.getInstance().init(this);
-//设置最大录音时长
-FMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
-//设置倒计时回调
-FMediaRecorder.getInstance().setOnCountDownCallback(new FMediaRecorder.OnCountDownCallback()
-{
-    @Override
-    public void onTick(long leftTime)
-    {
-        Log.i(TAG, "Recorder Timer onTick:" + leftTime);
-    }
-
-    @Override
-    public void onFinish()
-    {
-        Log.i(TAG, "Recorder Timer finish");
-        FMediaRecorder.getInstance().stop();
-    }
-});
 //设置状态变化回调
 FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
 {
     @Override
-    public void onStateChanged(FMediaRecorder.State oldState, FMediaRecorder.State newState, FMediaRecorder recorder)
+    public void onStateChanged(FMediaRecorder recorder, FMediaRecorder.State oldState, FMediaRecorder.State newState)
     {
         Log.i(TAG, "Recorder onStateChanged:" + newState);
     }
