@@ -144,7 +144,7 @@ public class FMediaRecorder
      */
     public void setMaxRecordTime(long maxRecordTime)
     {
-        this.mMaxRecordTime = maxRecordTime;
+        mMaxRecordTime = maxRecordTime;
     }
 
     /**
