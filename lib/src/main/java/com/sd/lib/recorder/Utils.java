@@ -9,16 +9,14 @@ class Utils
         try
         {
             if (ext == null)
-            {
                 ext = "";
-            }
 
             long current = System.currentTimeMillis();
-            File file = new File(dir, String.valueOf(current + ext));
+            File file = new File(dir, current + ext);
             while (file.exists())
             {
                 current++;
-                file = new File(dir, String.valueOf(current + ext));
+                file = new File(dir, current + ext);
             }
             return file;
         } catch (Exception e)
@@ -30,14 +28,12 @@ class Utils
     public static boolean deleteFileOrDir(File path)
     {
         if (path == null || !path.exists())
-        {
             return true;
-        }
+
         if (path.isFile())
-        {
             return path.delete();
-        }
-        File[] files = path.listFiles();
+
+        final File[] files = path.listFiles();
         if (files != null)
         {
             for (File file : files)
