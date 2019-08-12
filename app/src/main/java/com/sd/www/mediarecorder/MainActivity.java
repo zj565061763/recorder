@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
         {
             @Override
-            public void onStateChanged(FMediaRecorder.State oldState, FMediaRecorder.State newState, FMediaRecorder recorder)
+            public void onStateChanged(FMediaRecorder recorder, FMediaRecorder.State oldState, FMediaRecorder.State newState)
             {
                 Log.i(TAG, "Recorder onStateChanged:" + newState);
             }

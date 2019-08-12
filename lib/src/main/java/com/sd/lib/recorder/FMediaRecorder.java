@@ -191,7 +191,7 @@ public class FMediaRecorder
             mIsInit = false;
 
         if (mOnStateChangeCallback != null)
-            mOnStateChangeCallback.onStateChanged(oldState, mState, this);
+            mOnStateChangeCallback.onStateChanged(this, oldState, mState);
     }
 
     /**
@@ -335,11 +335,11 @@ public class FMediaRecorder
         /**
          * 播放器状态发生变化回调
          *
+         * @param recorder
          * @param oldState
          * @param newState
-         * @param recorder
          */
-        void onStateChanged(State oldState, State newState, FMediaRecorder recorder);
+        void onStateChanged(FMediaRecorder recorder, State oldState, State newState);
     }
 
     public interface OnRecorderCallback
@@ -361,12 +361,5 @@ public class FMediaRecorder
          * @param e
          */
         void onException(Exception e);
-    }
-
-    public interface OnCountDownCallback
-    {
-        void onTick(long leftTime);
-
-        void onFinish();
     }
 }
