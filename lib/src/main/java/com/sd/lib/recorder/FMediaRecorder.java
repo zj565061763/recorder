@@ -345,9 +345,7 @@ public class FMediaRecorder
     private void startTimer()
     {
         if (mMaxRecordTime < 1000)
-        {
             return;
-        }
 
         if (mCountDownTimer == null)
         {
@@ -357,18 +355,14 @@ public class FMediaRecorder
                 public void onTick(long millisUntilFinished)
                 {
                     if (mOnCountDownCallback != null)
-                    {
                         mOnCountDownCallback.onTick(millisUntilFinished);
-                    }
                 }
 
                 @Override
                 public void onFinish()
                 {
                     if (mOnCountDownCallback != null)
-                    {
                         mOnCountDownCallback.onFinish();
-                    }
                 }
             };
             mCountDownTimer.start();
@@ -387,9 +381,7 @@ public class FMediaRecorder
     private void notifyRecordSuccess()
     {
         if (mOnRecorderCallback == null)
-        {
             return;
-        }
 
         long duration = 0;
         if (mStartTime > 0)
@@ -406,9 +398,7 @@ public class FMediaRecorder
         resetData();
 
         if (mOnExceptionCallback != null)
-        {
             mOnExceptionCallback.onException(e);
-        }
     }
 
     public enum State
@@ -466,5 +456,4 @@ public class FMediaRecorder
 
         void onFinish();
     }
-
 }
