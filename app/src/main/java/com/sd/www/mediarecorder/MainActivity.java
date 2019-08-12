@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
 
+    private final FMediaRecorder mRecorder = new FMediaRecorder();
     private final FMediaPlayer mPlayer = new FMediaPlayer();
 
     @Override
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity
 
     private void initRecorder()
     {
-        FMediaRecorder.getInstance().init(this);
-        FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
+        mRecorder.init(this);
+        mRecorder.setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
         {
             @Override
             public void onStateChanged(FMediaRecorder recorder, FMediaRecorder.State oldState, FMediaRecorder.State newState)
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity
                 Log.i(TAG, "Recorder onStateChanged:" + newState);
             }
         });
-        FMediaRecorder.getInstance().setOnRecorderCallback(new FMediaRecorder.OnRecorderCallback()
+        mRecorder.setOnRecorderCallback(new FMediaRecorder.OnRecorderCallback()
         {
             @Override
             public void onRecordSuccess(File file, long duration)
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
                 mPlayer.setDataPath(file.getAbsolutePath());
             }
         });
-        FMediaRecorder.getInstance().setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
+        mRecorder.setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
         {
             @Override
             public void onException(Exception e)
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity
     {
         mPlayer.reset();
 
-        FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
+        mRecorder.start(new File(getExternalCacheDir(), "record.aac"));
     }
 
     /**
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStopRecord(View view)
     {
-        FMediaRecorder.getInstance().stop();
+        mRecorder.stop();
     }
 
     /**
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        FMediaRecorder.getInstance().release();
+        mRecorder.release();
 
         mPlayer.release();
     }
