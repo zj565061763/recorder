@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onStateChanged(FMediaPlayer player, FMediaPlayer.State oldState, FMediaPlayer.State newState)
             {
-                Log.i(TAG, "Player onStateChanged:" + oldState + " -> " + newState);
+                Log.i(TAG, "Player onStateChanged:" + newState);
             }
         });
         mPlayer.setOnExceptionCallback(new FMediaPlayer.OnExceptionCallback()
