@@ -194,7 +194,7 @@ public class FMediaRecorder
         public void onError(MediaRecorder mr, int what, int extra)
         {
             stopRecorder(false);
-            notifyException(new RuntimeException(mr + ":" + String.valueOf(what) + "," + extra));
+            notifyException(new RuntimeException(mr + ":" + what + "," + extra));
         }
     };
 
