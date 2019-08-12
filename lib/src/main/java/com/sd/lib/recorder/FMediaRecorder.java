@@ -53,7 +53,7 @@ public class FMediaRecorder
      *
      * @param context
      */
-    public synchronized void init(Context context)
+    public void init(Context context)
     {
         if (mIsInit)
             return;
@@ -65,10 +65,6 @@ public class FMediaRecorder
 
         try
         {
-
-            if (mRecorder != null)
-                release();
-
             mRecorder = new MediaRecorder();
             mRecorder.setOnErrorListener(mInternalOnErrorListener);
             mState = State.Idle;
