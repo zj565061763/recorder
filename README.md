@@ -6,10 +6,13 @@
 
 ## 常用方法
 ```java
+
+FMediaRecorder mRecorder = new FMediaRecorder();
+
 //初始化
-FMediaRecorder.getInstance().init(this);
+mRecorder.init(this);
 //设置状态变化回调
-FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
+mRecorder.setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
 {
     @Override
     public void onStateChanged(FMediaRecorder recorder, FMediaRecorder.State oldState, FMediaRecorder.State newState)
@@ -18,7 +21,7 @@ FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnState
     }
 });
 //设置录音回调
-FMediaRecorder.getInstance().setOnRecorderCallback(new FMediaRecorder.OnRecorderCallback()
+mRecorder.setOnRecorderCallback(new FMediaRecorder.OnRecorderCallback()
 {
     @Override
     public void onRecordSuccess(File file, long duration)
@@ -28,7 +31,7 @@ FMediaRecorder.getInstance().setOnRecorderCallback(new FMediaRecorder.OnRecorder
     }
 });
 //设置异常回调
-FMediaRecorder.getInstance().setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
+mRecorder.setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
 {
     @Override
     public void onException(Exception e)
@@ -38,9 +41,9 @@ FMediaRecorder.getInstance().setOnExceptionCallback(new FMediaRecorder.OnExcepti
 });
 
 //开始录音，如果File为null，则内部会自动创建File
-FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
+mRecorder.start(new File(getExternalCacheDir(), "record.aac"));
 //停止录音
-FMediaRecorder.getInstance().stop();
+mRecorder.stop();
 //释放录音器，释放后需要重新调用初始化方法才可以继续使用
-FMediaRecorder.getInstance().release();
+mRecorder.release();
 ```
