@@ -148,6 +148,16 @@ public class FMediaRecorder
     }
 
     /**
+     * 返回当前状态
+     *
+     * @return
+     */
+    public State getState()
+    {
+        return mState;
+    }
+
+    /**
      * 返回默认的录音文件保存目录
      *
      * @return
@@ -197,16 +207,6 @@ public class FMediaRecorder
             notifyException(new RuntimeException(mr + ":" + what + "," + extra));
         }
     };
-
-    /**
-     * 返回当前状态
-     *
-     * @return
-     */
-    public State getState()
-    {
-        return mState;
-    }
 
     private void setState(State state)
     {
