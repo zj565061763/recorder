@@ -5,15 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.sd.lib.recorder.FMediaRecorder;
 import com.sd.lib.player.FMediaPlayer;
+import com.sd.lib.recorder.FMediaRecorder;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity
 {
-
     private static final String TAG = "MainActivity";
+
+    private final FMediaPlayer mPlayer = new FMediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStartRecord(View view)
     {
-        FMediaPlayer.getInstance().reset();
+        mPlayer.reset();
 
         FMediaRecorder.getInstance().start(new File(getExternalCacheDir(), "record.aac"));
     }
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStartPlay(View view)
     {
-        FMediaPlayer.getInstance().start();
+        mPlayer.start();
     }
 
     /**
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onClickStopPlay(View view)
     {
-        FMediaPlayer.getInstance().stop();
+        mPlayer.stop();
     }
 
     private void initRecorder()
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity
             public void onRecordSuccess(File file, long duration)
             {
                 Log.i(TAG, "Recorder onRecordSuccess:" + file.getAbsolutePath() + "," + duration);
-                FMediaPlayer.getInstance().setDataPath(file.getAbsolutePath());
+                mPlayer.setDataPath(file.getAbsolutePath());
             }
         });
         FMediaRecorder.getInstance().setOnExceptionCallback(new FMediaRecorder.OnExceptionCallback()
@@ -107,16 +108,16 @@ public class MainActivity extends AppCompatActivity
 
     private void initPlayer()
     {
-        FMediaPlayer.getInstance().init();
-        FMediaPlayer.getInstance().setOnStateChangeCallback(new FMediaPlayer.OnStateChangeCallback()
+        mPlayer.init();
+        mPlayer.addOnStateChangeCallback(new FMediaPlayer.OnStateChangeCallback()
         {
             @Override
-            public void onStateChanged(FMediaPlayer.State oldState, FMediaPlayer.State newState, FMediaPlayer player)
+            public void onStateChanged(FMediaPlayer player, FMediaPlayer.State oldState, FMediaPlayer.State newState)
             {
-                Log.i(TAG, "Player onStateChanged:" + newState);
+                Log.i(TAG, "Player onStateChanged:" + oldState + " -> " + newState);
             }
         });
-        FMediaPlayer.getInstance().setOnExceptionCallback(new FMediaPlayer.OnExceptionCallback()
+        mPlayer.setOnExceptionCallback(new FMediaPlayer.OnExceptionCallback()
         {
             @Override
             public void onException(Exception e)
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onDestroy();
         FMediaRecorder.getInstance().release();
-        FMediaPlayer.getInstance().release();
+
+        mPlayer.release();
     }
 }
