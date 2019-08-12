@@ -6,11 +6,14 @@ class Utils
 {
     public static File createDefaultFileUnderDir(File dir, String ext)
     {
+        if (dir == null)
+            return null;
+
+        if (ext == null)
+            ext = "";
+
         try
         {
-            if (ext == null)
-                ext = "";
-
             long current = System.currentTimeMillis();
             File file = new File(dir, current + ext);
             while (file.exists())
