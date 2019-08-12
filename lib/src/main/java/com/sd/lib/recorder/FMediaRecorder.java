@@ -226,6 +226,7 @@ public class FMediaRecorder
                 break;
             case Released:
                 mIsInit = false;
+                stopTimer();
                 break;
             default:
                 break;
@@ -270,17 +271,7 @@ public class FMediaRecorder
      */
     public void release()
     {
-        switch (mState)
-        {
-            case Idle:
-                releaseRecorder();
-                break;
-            case Recording:
-                stopRecorder(false);
-                break;
-            default:
-                break;
-        }
+        releaseRecorder();
     }
 
     private void startRecorder(File file)
