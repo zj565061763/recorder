@@ -39,9 +39,7 @@ public class FMediaRecorder
             synchronized (FMediaRecorder.class)
             {
                 if (sInstance == null)
-                {
                     sInstance = new FMediaRecorder();
-                }
             }
         }
         return sInstance;
