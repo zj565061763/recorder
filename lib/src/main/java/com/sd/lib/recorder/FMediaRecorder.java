@@ -51,25 +51,22 @@ public class FMediaRecorder
      *
      * @param context
      */
-    public void init(Context context)
+    public synchronized void init(Context context)
     {
+        if (mIsInit)
+            return;
+
         try
         {
-            if (mIsInit)
-            {
-                return;
-            }
-            if (mRecorder != null)
-            {
-                release();
-            }
 
-            File cacheDir = context.getExternalCacheDir();
-            if (cacheDir == null)
-            {
-                cacheDir = context.getCacheDir();
-            }
-            mDirFile = new File(cacheDir, DIR_NAME);
+            if (mRecorder != null)
+                release();
+
+            File dir = context.getExternalCacheDir();
+            if (dir == null)
+                dir = context.getCacheDir();
+
+            mDirFile = new File(dir, DIR_NAME);
 
             mRecorder = new MediaRecorder();
             mRecorder.setOnErrorListener(mInternalOnErrorListener);
