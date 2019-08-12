@@ -9,8 +9,6 @@ public class FMediaRecorder
 {
     private static final String DIR_NAME = "record";
 
-    private static FMediaRecorder sInstance;
-
     private Context mContext;
     private MediaRecorder mRecorder;
     private FMediaRecorderParams mRecorderParams;
@@ -24,24 +22,6 @@ public class FMediaRecorder
     private OnRecorderCallback mOnRecorderCallback;
     private OnExceptionCallback mOnExceptionCallback;
     private OnStateChangeCallback mOnStateChangeCallback;
-
-    private FMediaRecorder()
-    {
-    }
-
-    public static FMediaRecorder getInstance()
-    {
-        if (sInstance == null)
-        {
-            synchronized (FMediaRecorder.class)
-            {
-                if (sInstance == null)
-                    sInstance = new FMediaRecorder();
-            }
-        }
-        return sInstance;
-    }
-
 
     /**
      * 初始化录音器
