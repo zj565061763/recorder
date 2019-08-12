@@ -114,26 +114,11 @@ public class FMediaRecorder
         return mState;
     }
 
-    /**
-     * 返回默认的录音文件保存目录
-     *
-     * @return
-     */
-    public File getDirFile()
-    {
-        final boolean ensure = ensureDirectoryExists();
-        return ensure ? mDirFile : null;
-    }
-
-    private boolean ensureDirectoryExists()
+    private boolean checkDirectory()
     {
         if (mDirFile == null)
         {
-            File dir = mContext.getExternalCacheDir();
-            if (dir == null)
-                dir = mContext.getCacheDir();
-
-            mDirFile = new File(dir, DIR_NAME);
+            mDirFile = getDirectory(mContext);
         }
 
         if (mDirFile == null)
@@ -221,8 +206,11 @@ public class FMediaRecorder
 
     private void startRecorder(File file)
     {
+        if (!checkDirectory())
+            return;
+
         if (file == null)
-            file = Utils.createDefaultFileUnderDir(getDirFile(), null);
+            file = Utils.createDefaultFileUnderDir(mDirFile, null);
 
         if (file == null)
             return;
@@ -299,6 +287,20 @@ public class FMediaRecorder
 
         if (mOnExceptionCallback != null)
             mOnExceptionCallback.onException(e);
+    }
+
+    /**
+     * 返回默认的录音文件保存目录
+     *
+     * @return
+     */
+    public static File getDirectory(Context context)
+    {
+        File dir = context.getExternalCacheDir();
+        if (dir == null)
+            dir = context.getCacheDir();
+
+        return new File(dir, DIR_NAME);
     }
 
     public enum State
