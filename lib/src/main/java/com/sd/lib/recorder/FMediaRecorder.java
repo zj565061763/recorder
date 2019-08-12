@@ -11,6 +11,8 @@ public class FMediaRecorder
     private static final String DIR_NAME = "record";
 
     private static FMediaRecorder sInstance;
+
+    private Context mContext;
     private MediaRecorder mRecorder;
     private FMediaRecorderParams mRecorderParams;
     private State mState = State.Idle;
@@ -56,17 +58,16 @@ public class FMediaRecorder
         if (mIsInit)
             return;
 
+        if (context == null)
+            throw new IllegalArgumentException("context is null");
+
+        mContext = context.getApplicationContext();
+
         try
         {
 
             if (mRecorder != null)
                 release();
-
-            File dir = context.getExternalCacheDir();
-            if (dir == null)
-                dir = context.getCacheDir();
-
-            mDirFile = new File(dir, DIR_NAME);
 
             mRecorder = new MediaRecorder();
             mRecorder.setOnErrorListener(mInternalOnErrorListener);
@@ -82,11 +83,11 @@ public class FMediaRecorder
     /**
      * 设置录音参数
      *
-     * @param recorderParams
+     * @param params
      */
-    public void setRecorderParams(FMediaRecorderParams recorderParams)
+    public void setRecorderParams(FMediaRecorderParams params)
     {
-        mRecorderParams = recorderParams;
+        mRecorderParams = params;
     }
 
     private FMediaRecorderParams getRecorderParams()
@@ -147,22 +148,44 @@ public class FMediaRecorder
     }
 
     /**
-     * 删除默认目录下的所有录音文件
-     */
-    public void deleteAllFile()
-    {
-        Utils.deleteFileOrDir(mDirFile);
-    }
-
-    /**
      * 返回默认的录音文件保存目录
      *
      * @return
      */
     public File getDirFile()
     {
-        ensureDirectoryExists();
-        return mDirFile;
+        final boolean ensure = ensureDirectoryExists();
+        return ensure ? mDirFile : null;
+    }
+
+    private boolean ensureDirectoryExists()
+    {
+        if (mDirFile == null)
+        {
+            File dir = mContext.getExternalCacheDir();
+            if (dir == null)
+                dir = mContext.getCacheDir();
+
+            mDirFile = new File(dir, DIR_NAME);
+        }
+
+        if (mDirFile == null)
+        {
+            notifyException(new RuntimeException("create dir file failed"));
+            return false;
+        }
+
+        if (mDirFile.exists())
+            return true;
+
+        try
+        {
+            return mDirFile.mkdirs();
+        } catch (Exception e)
+        {
+            notifyException(e);
+            return false;
+        }
     }
 
     /**
@@ -173,7 +196,11 @@ public class FMediaRecorder
      */
     public File getFile(String fileName)
     {
-        final File file = new File(getDirFile(), fileName);
+        final File dir = getDirFile();
+        if (dir == null)
+            return null;
+
+        final File file = new File(dir, fileName);
         return file;
     }
 
@@ -187,6 +214,11 @@ public class FMediaRecorder
         }
     };
 
+    /**
+     * 返回当前状态
+     *
+     * @return
+     */
     public State getState()
     {
         return mState;
@@ -276,23 +308,6 @@ public class FMediaRecorder
                 break;
             default:
                 break;
-        }
-    }
-
-    private void ensureDirectoryExists()
-    {
-        if (mDirFile == null)
-            return;
-
-        if (mDirFile.exists())
-            return;
-
-        try
-        {
-            mDirFile.mkdirs();
-        } catch (Exception e)
-        {
-            notifyException(e);
         }
     }
 
