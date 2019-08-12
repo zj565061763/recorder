@@ -2,7 +2,6 @@ package com.sd.lib.recorder;
 
 import android.content.Context;
 import android.media.MediaRecorder;
-import android.os.CountDownTimer;
 
 import java.io.File;
 
@@ -19,16 +18,12 @@ public class FMediaRecorder
     private File mDirFile;
     private boolean mIsInit;
 
-    private File mRecordFile;
     private long mStartTime;
-
-    private CountDownTimer mCountDownTimer;
-    private long mMaxRecordTime;
+    private File mRecordFile;
 
     private OnRecorderCallback mOnRecorderCallback;
     private OnExceptionCallback mOnExceptionCallback;
     private OnStateChangeCallback mOnStateChangeCallback;
-    private OnCountDownCallback mOnCountDownCallback;
 
     private FMediaRecorder()
     {
@@ -124,26 +119,6 @@ public class FMediaRecorder
     }
 
     /**
-     * 设置倒计时回调
-     *
-     * @param onCountDownCallback
-     */
-    public void setOnCountDownCallback(OnCountDownCallback onCountDownCallback)
-    {
-        mOnCountDownCallback = onCountDownCallback;
-    }
-
-    /**
-     * 设置最大录音时长
-     *
-     * @param maxRecordTime (毫秒)
-     */
-    public void setMaxRecordTime(long maxRecordTime)
-    {
-        mMaxRecordTime = maxRecordTime;
-    }
-
-    /**
      * 返回当前状态
      *
      * @return
@@ -212,21 +187,8 @@ public class FMediaRecorder
 
         mState = state;
 
-        switch (mState)
-        {
-            case Idle:
-                stopTimer();
-                break;
-            case Recording:
-                startTimer();
-                break;
-            case Released:
-                mIsInit = false;
-                stopTimer();
-                break;
-            default:
-                break;
-        }
+        if (mState == State.Released)
+            mIsInit = false;
 
         if (mOnStateChangeCallback != null)
             mOnStateChangeCallback.onStateChanged(oldState, mState, this);
@@ -290,8 +252,8 @@ public class FMediaRecorder
             mRecorder.setOutputFile(mRecordFile.getAbsolutePath());
             mRecorder.prepare();
             mRecorder.start();
-            mStartTime = System.currentTimeMillis();
 
+            mStartTime = System.currentTimeMillis();
             setState(State.Recording);
         } catch (Exception e)
         {
@@ -326,43 +288,6 @@ public class FMediaRecorder
     private void resetData()
     {
         mRecordFile = null;
-        mStartTime = 0;
-    }
-
-    private void startTimer()
-    {
-        if (mMaxRecordTime < 1000)
-            return;
-
-        if (mCountDownTimer == null)
-        {
-            mCountDownTimer = new CountDownTimer(mMaxRecordTime, 1000)
-            {
-                @Override
-                public void onTick(long millisUntilFinished)
-                {
-                    if (mOnCountDownCallback != null)
-                        mOnCountDownCallback.onTick(millisUntilFinished);
-                }
-
-                @Override
-                public void onFinish()
-                {
-                    if (mOnCountDownCallback != null)
-                        mOnCountDownCallback.onFinish();
-                }
-            };
-            mCountDownTimer.start();
-        }
-    }
-
-    private void stopTimer()
-    {
-        if (mCountDownTimer != null)
-        {
-            mCountDownTimer.cancel();
-            mCountDownTimer = null;
-        }
     }
 
     private void notifyRecordSuccess()
@@ -375,6 +300,7 @@ public class FMediaRecorder
         {
             duration = System.currentTimeMillis() - mStartTime;
         }
+
         mOnRecorderCallback.onRecordSuccess(mRecordFile, duration);
     }
 

@@ -29,22 +29,6 @@ public class MainActivity extends AppCompatActivity
     private void initRecorder()
     {
         FMediaRecorder.getInstance().init(this);
-        FMediaRecorder.getInstance().setMaxRecordTime(60 * 1000);
-        FMediaRecorder.getInstance().setOnCountDownCallback(new FMediaRecorder.OnCountDownCallback()
-        {
-            @Override
-            public void onTick(long leftTime)
-            {
-                Log.i(TAG, "Recorder Timer onTick:" + leftTime);
-            }
-
-            @Override
-            public void onFinish()
-            {
-                Log.i(TAG, "Recorder Timer finish");
-                FMediaRecorder.getInstance().stop();
-            }
-        });
         FMediaRecorder.getInstance().setOnStateChangeCallback(new FMediaRecorder.OnStateChangeCallback()
         {
             @Override
