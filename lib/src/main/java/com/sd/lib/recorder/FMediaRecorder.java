@@ -188,22 +188,6 @@ public class FMediaRecorder
         }
     }
 
-    /**
-     * 返回默认目录下根据指定文件名对应的File对象
-     *
-     * @param fileName
-     * @return
-     */
-    public File getFile(String fileName)
-    {
-        final File dir = getDirFile();
-        if (dir == null)
-            return null;
-
-        final File file = new File(dir, fileName);
-        return file;
-    }
-
     private final MediaRecorder.OnErrorListener mInternalOnErrorListener = new MediaRecorder.OnErrorListener()
     {
         @Override
@@ -313,17 +297,20 @@ public class FMediaRecorder
 
     private void startRecorder(File file)
     {
+        if (file == null)
+            file = Utils.createDefaultFileUnderDir(getDirFile(), null);
+
+        if (file == null)
+            return;
+
+        mRecordFile = file;
+
         try
         {
-            mRecorder.setAudioSource(getRecorderParams().getAudioSource());
-            mRecorder.setOutputFormat(getRecorderParams().getOutputFormat());
-            mRecorder.setAudioEncoder(getRecorderParams().getAudioEncoder());
-
-            mRecordFile = file;
-            if (mRecordFile == null || !mRecordFile.exists())
-            {
-                mRecordFile = Utils.createDefaultFileUnderDir(getDirFile(), null);
-            }
+            final FMediaRecorderParams params = getRecorderParams();
+            mRecorder.setAudioSource(params.getAudioSource());
+            mRecorder.setOutputFormat(params.getOutputFormat());
+            mRecorder.setAudioEncoder(params.getAudioEncoder());
 
             mRecorder.setOutputFile(mRecordFile.getAbsolutePath());
             mRecorder.prepare();
