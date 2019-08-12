@@ -194,11 +194,9 @@ public class FMediaRecorder
 
     private void setState(State state)
     {
-        if (mState == state)
-        {
-            return;
-        }
         final State oldState = mState;
+        if (oldState == state)
+            return;
 
         mState = state;
 
