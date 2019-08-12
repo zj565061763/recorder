@@ -333,9 +333,7 @@ public class FMediaRecorder
             setState(State.Stopped);
 
             if (notifySuccess)
-            {
                 notifyRecordSuccess();
-            }
 
             resetData();
         } catch (Exception e)
