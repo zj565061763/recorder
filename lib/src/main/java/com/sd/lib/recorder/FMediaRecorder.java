@@ -92,9 +92,7 @@ public class FMediaRecorder
     private FMediaRecorderParams getRecorderParams()
     {
         if (mRecorderParams == null)
-        {
             mRecorderParams = FMediaRecorderParams.DEFAULT;
-        }
         return mRecorderParams;
     }
 
@@ -175,11 +173,11 @@ public class FMediaRecorder
      */
     public File getFile(String fileName)
     {
-        File file = new File(getDirFile(), fileName);
+        final File file = new File(getDirFile(), fileName);
         return file;
     }
 
-    private MediaRecorder.OnErrorListener mInternalOnErrorListener = new MediaRecorder.OnErrorListener()
+    private final MediaRecorder.OnErrorListener mInternalOnErrorListener = new MediaRecorder.OnErrorListener()
     {
         @Override
         public void onError(MediaRecorder mr, int what, int extra)
@@ -288,15 +286,18 @@ public class FMediaRecorder
 
     private void ensureDirectoryExists()
     {
-        if (mDirFile != null && !mDirFile.exists())
+        if (mDirFile == null)
+            return;
+
+        if (mDirFile.exists())
+            return;
+
+        try
         {
-            try
-            {
-                mDirFile.mkdirs();
-            } catch (Exception e)
-            {
-                notifyException(e);
-            }
+            mDirFile.mkdirs();
+        } catch (Exception e)
+        {
+            notifyException(e);
         }
     }
 
