@@ -71,6 +71,12 @@ public class FMediaRecorder
         }
     }
 
+    private void checkInit()
+    {
+        if (!mIsInit)
+            throw new RuntimeException(this + " has not been init");
+    }
+
     /**
      * 设置录音参数
      *
@@ -199,6 +205,7 @@ public class FMediaRecorder
      */
     public void start(File file)
     {
+        checkInit();
         switch (mState)
         {
             case Idle:
