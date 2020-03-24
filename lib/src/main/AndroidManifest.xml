@@ -1,13 +1,6 @@
-<manifest package="com.sd.lib.recorder"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sd.lib.recorder">
 
-          xmlns:android="http://schemas.android.com/apk/res/android"
->
-
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:supportsRtl="true"
-    >
-
-    </application>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>
